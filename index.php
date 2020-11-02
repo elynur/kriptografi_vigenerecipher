@@ -26,7 +26,7 @@ $t->header();
 <center>
     <h3>Simple Vigenere Chipher implementation with PHP</h2>
     <h4><a onclick="Info()">by Ely Nur Rahayu</a></h4>
-<br><br>
+<br>
 <div class="card col-lg-6 py-3">
     <form action="" method="post">
         <div class="form-group">
@@ -42,8 +42,8 @@ $t->header();
             <small id="keyHelp" class="form-text text-muted"></small>
         </div>       
         <button type="submit" class="btn btn-primary" name="encrypt_vigenere" value="Encrypt">Enkripsi</button>
-        <!-- <button type="submit" class="btn btn-primary" name="decrypt_vigenere" value="Decrypt">Dekripsi</button>
-        <button type="reset" class="btn btn-warning" value="Reset">Reset</button> -->
+        <button type="submit" class="btn btn-primary" name="decrypt_vigenere" value="Decrypt">Dekripsi</button>
+        <button type="reset" class="btn btn-warning" value="Reset">Reset</button>
     </form>
 </div>
  </center>
@@ -61,7 +61,7 @@ $t->header();
     //----------------------------------------------------------------//
     // vigenere                                                       //
     //----------------------------------------------------------------//
-         if ((isset($_POST['key_vigenere'])) && (isset($_POST['plantext_vigenere'])) && (isset($_POST['encrypt_vigenere']))){
+if ((isset($_POST['key_vigenere'])) && (isset($_POST['plantext_vigenere'])) && (isset($_POST['encrypt_vigenere']))){
             $key=$_POST['key_vigenere'];
             $plantext=$_POST['plantext_vigenere'];
             $len_key=strlen($key);
@@ -108,12 +108,42 @@ $t->header();
              m = 13 (terbukti)
             */           
 
-        }
+}
 
-                echo '</textarea><br/>';
-            } else {
-                echo "result here...";
+             echo '</textarea><br/>';
+        } else if ((isset($_POST['key_vigenere'])) && (isset($_POST['plantext_vigenere'])) && (isset($_POST['decrypt_vigenere']))){
+            $key=$_POST['key_vigenere'];
+            $plantext=$_POST['plantext_vigenere'];
+            $len_key=strlen($key);
+            $len_plantext=strlen($plantext);
+            $split_key=str_split($key);
+            $split_plantext=str_split($plantext);
+            
+            echo '<textarea rows="4" id="result" cols="33" onclick="SelectAll(\'result\')" >';
+            $i=0;
+            for($j=0;$j<$len_plantext;$j++){
+                if ($i==$len_key){
+                    $i=0;
+                }
+                $split_key2[$j]=$split_key[$i];
+                $i++;
             }
+            
+            for($k=0;$k<$len_plantext;$k++){
+                $a=char_to_dec($split_key2[$k]);
+                $b=char_to_dec($split_plantext[$k]);
+                if (($a && $b)!=null){
+                    echo (tabel_vigenere_decrypt($b, $a));
+                } else {
+                    echo $split_plantext[$k];
+                }
+            }
+            
+            echo '</textarea><br/>';
+
+        } else {
+            echo "result here...";
+        }
     ?>
     </td></tr>
     <tr><td valign="top">
